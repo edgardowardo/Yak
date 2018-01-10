@@ -17,6 +17,10 @@
 		C04BEC1B200698830056C63B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C04BEC19200698830056C63B /* LaunchScreen.storyboard */; };
 		C04BEC26200698830056C63B /* YakTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04BEC25200698830056C63B /* YakTests.swift */; };
 		C04BEC31200698840056C63B /* YakUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04BEC30200698840056C63B /* YakUITests.swift */; };
+		C04BEC3F200699C10056C63B /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = C04BEC3E200699C10056C63B /* README.md */; };
+		C04BEC422006B4070056C63B /* Tile.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04BEC412006B4070056C63B /* Tile.swift */; };
+		C04BEC442006B5840056C63B /* Board.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04BEC432006B5840056C63B /* Board.swift */; };
+		C04BEC462006B6310056C63B /* Board+TileMovement.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04BEC452006B6310056C63B /* Board+TileMovement.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +57,10 @@
 		C04BEC2C200698830056C63B /* YakUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YakUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C04BEC30200698840056C63B /* YakUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YakUITests.swift; sourceTree = "<group>"; };
 		C04BEC32200698840056C63B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C04BEC3E200699C10056C63B /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		C04BEC412006B4070056C63B /* Tile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tile.swift; sourceTree = "<group>"; };
+		C04BEC432006B5840056C63B /* Board.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Board.swift; sourceTree = "<group>"; };
+		C04BEC452006B6310056C63B /* Board+TileMovement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Board+TileMovement.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +111,8 @@
 		C04BEC09200698830056C63B /* Yak */ = {
 			isa = PBXGroup;
 			children = (
+				C04BEC3E200699C10056C63B /* README.md */,
+				C04BEC4020069B3E0056C63B /* Model */,
 				C04BEC0A200698830056C63B /* AppDelegate.swift */,
 				C04BEC0C200698830056C63B /* GameScene.sks */,
 				C04BEC0E200698830056C63B /* Actions.sks */,
@@ -132,6 +142,16 @@
 				C04BEC32200698840056C63B /* Info.plist */,
 			);
 			path = YakUITests;
+			sourceTree = "<group>";
+		};
+		C04BEC4020069B3E0056C63B /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				C04BEC412006B4070056C63B /* Tile.swift */,
+				C04BEC432006B5840056C63B /* Board.swift */,
+				C04BEC452006B6310056C63B /* Board+TileMovement.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -241,6 +261,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C04BEC3F200699C10056C63B /* README.md in Resources */,
 				C04BEC16200698830056C63B /* Main.storyboard in Resources */,
 				C04BEC0D200698830056C63B /* GameScene.sks in Resources */,
 				C04BEC18200698830056C63B /* Assets.xcassets in Resources */,
@@ -271,8 +292,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				C04BEC11200698830056C63B /* GameScene.swift in Sources */,
+				C04BEC462006B6310056C63B /* Board+TileMovement.swift in Sources */,
 				C04BEC13200698830056C63B /* GameViewController.swift in Sources */,
+				C04BEC442006B5840056C63B /* Board.swift in Sources */,
 				C04BEC0B200698830056C63B /* AppDelegate.swift in Sources */,
+				C04BEC422006B4070056C63B /* Tile.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
