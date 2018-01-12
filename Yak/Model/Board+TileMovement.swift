@@ -19,6 +19,51 @@ extension Board: TileMovementProviding {
         return jar.count / width
     }
     
+    func isIndexBound(_ targetIndex: Int, by direction: Tile.Movement, from index: Int ) -> Bool {
+        let modulus = index % width
+        switch direction {
+        case .up: return targetIndex >= 0
+        case .down: return targetIndex < jar.count
+        case .left: return targetIndex >= index - modulus
+        case .right: return targetIndex < index + width - modulus
+        }
+    }
+    
+    func otherOffset(for tile: Tile) -> Int {
+        switch tile {
+        case .horizontal(_, segment: .lead):
+            return 1
+        case .horizontal(_, segment: .trail):
+            return -1
+        case .vertical(_, segment: .top):
+            return width
+        case .vertical(_, segment: .bottom):
+            return -width
+        default:
+            assertionFailure("No other index")
+            return 0
+        }
+    }
+    
+    func offset(for tile: Tile, moving direction: Tile.Movement) -> Int {
+        switch (tile, direction) {
+        case (.square(_), .up),
+             (.square(_), .down),
+             (.horizontal(_, _), .up),
+             (.horizontal(_, _), .down):
+            return direction.sign * width
+        case (.square(_), .left),
+             (.square(_), .right),
+             (.horizontal(_, .lead), .left),
+             (.horizontal(_, .trail), .right):
+            return direction.sign
+        case (.horizontal(_, .trail), .left),
+             (.horizontal(_, .lead), .right):
+            return direction.sign + direction.sign
+        default: return 0
+        }
+    }
+    
     func canMove(tile: Tile, direction: Tile.Movement) -> Bool {
         guard let index = jar.index(of: tile) else {
             assertionFailure("No tile inside the jar")
@@ -31,68 +76,29 @@ extension Board: TileMovementProviding {
         switch (tile, direction) {
             
         // SQUARE
-        case (.square(_), .up):
-            let indexTop = index - width
-            guard indexTop > -1
+        case (.square(_), _):
+            let targetIndex = index + offset(for: tile, moving: direction)
+            guard isIndexBound(targetIndex, by: direction, from: index)
                 else { return false }
-            return jar[indexTop] == .none
-        case (.square(_), .down):
-            let indexBottom = index + width
-            guard indexBottom < jar.count
+            return jar[targetIndex] == .none
+
+        // HORIZONTAL
+        case (.horizontal(_, _), .up),
+             (.horizontal(_, _), .down):
+            let targetIndex = index + offset(for: tile, moving: direction)
+            let targetIndexRelated = targetIndex + otherOffset(for: tile)
+            guard isIndexBound(targetIndex, by: direction, from: index) && isIndexBound(targetIndexRelated, by: direction, from: index)
                 else { return false }
-            return jar[indexBottom] == .none
-        case (.square(_), .left):
-            guard index % width > 0
+            return jar[targetIndex] == .none && jar[targetIndexRelated] == .none
+        case (.horizontal(_, .lead), .left),
+             (.horizontal(_, .trail), .right),
+             (.horizontal(_, .lead), .right),
+             (.horizontal(_, .trail), .left):
+            let targetIndex = index + offset(for: tile, moving: direction)
+            guard isIndexBound(targetIndex, by: direction, from: index)
                 else { return false }
-            return jar[index - 1] == .none
-        case (.square(_), .right):
-            guard index % width < 3
-                else { return false }
-            return jar[index + 1] == .none
+            return jar[targetIndex] == .none
             
-        // BOURBON HORIZONTAL
-        case (.horizontal(1, .lead), .up):
-            let indexTopLeft = index - width
-            let indexTopRight = indexTopLeft + 1
-            guard indexTopLeft > -1 && indexTopRight > -1
-                else { return false }
-            return jar[indexTopLeft] == .none && jar[indexTopRight] == .none
-        case (.horizontal(1, .trail), .up):
-            let indexTopRight = index - width
-            let indexTopLeft = indexTopRight - 1
-            guard indexTopLeft > -1 && indexTopRight > -1
-                else { return false }
-            return jar[indexTopLeft] == .none && jar[indexTopRight] == .none
-            
-        case (.horizontal(1, .lead), .down):
-            let indexBottomLeft = index + width
-            let indexBottomRight = indexBottomLeft + 1
-            guard indexBottomLeft < jar.count && indexBottomRight < jar.count
-                else { return false }
-            return jar[indexBottomLeft] == .none && jar[indexBottomRight] == .none
-        case (.horizontal(1, .trail), .down):
-            let indexBottomRight = index + width
-            let indexBottomLeft = indexBottomRight - 1
-            guard indexBottomLeft < jar.count && indexBottomRight < jar.count
-                else { return false }
-            return jar[indexBottomLeft] == .none && jar[indexBottomRight] == .none
-            
-        case (.horizontal(1, .lead), .left):
-            guard index % width > 0
-                else { return false }
-            return jar[index - 1] == .none
-        case (.horizontal(1, .trail), .left):
-            guard index % width > 1
-                else { return false }
-            return jar[index - 2] == .none
-        case (.horizontal(1, .lead), .right):
-            guard index % width < 2
-                else { return false }
-            return jar[index + 2] == .none
-        case (.horizontal(1, .trail), .right):
-            guard index % width < 3
-                else { return false }
-            return jar[index + 1] == .none
         default: return false
         }
     }
@@ -108,60 +114,36 @@ extension Board: TileMovementProviding {
         switch (tile, direction) {
             
         // SQUARE
-        case (.square(_), .up):
-            jar[index - width] = tile
-        case (.square(_), .down):
-            jar[index + width] = tile
-        case (.square(_), .left):
-            jar[index - 1] = tile
-        case (.square(_), .right):
-            jar[index + 1] = tile
+        case (.square(_), _):
+            jar[index + offset(for: tile, moving: direction)] = tile
+            jar[index] = .none
             
-            // BOURBON HORIZONTAL
+        // HORIZONTAL
+        case (.horizontal(_, _), .up),
+             (.horizontal(_, _), .down):
+            let off = offset(for: tile, moving: direction)
+            let otherOff = otherOffset(for: tile)
+            jar[index + off] = jar[index]
+            jar[index + off + otherOff] = jar[index + otherOff]
+            jar[index] = .none
+            jar[index + otherOff] = .none
+        case (.horizontal(_, .lead), .left), // PULL
+             (.horizontal(_, .trail), .right):
+            let off = offset(for: tile, moving: direction)
+            jar[index + off] = jar[index]
+            jar[index] = jar[index - off]
+            jar[index - off] = .none
+        case (.horizontal(_, .trail), .left), // PUSH
+             (.horizontal(_, .lead), .right):
+            let off = offset(for: tile, moving: direction)
+            let otherOff = otherOffset(for: tile)
+            jar[index + off] = jar[index + otherOff]
+            jar[index + otherOff] = jar[index]
+            jar[index] = .none
             
-        case (.horizontal(1, .lead), .up):
-            jar[index - width] = jar[index]
-            jar[index - width + 1] = jar[index + 1]
-            jar[index] = .none
-            jar[index + 1] = .none
-        case (.horizontal(1, .trail), .up):
-            jar[index - width] = jar[index]
-            jar[index - width - 1] = jar[index - 1]
-            jar[index] = .none
-            jar[index - 1] = .none
-        case (.horizontal(1, .lead), .down):
-            jar[index + width] = jar[index]
-            jar[index + width + 1] = jar[index + 1]
-            jar[index] = .none
-            jar[index + 1] = .none
-        case (.horizontal(1, .trail), .down):
-            jar[index + width] = jar[index]
-            jar[index + width - 1] = jar[index - 1]
-            jar[index] = .none
-            jar[index - 1] = .none
-            
-        case (.horizontal(1, .lead), .left):
-            jar[index - 1] = tile
-            jar[index] = jar[index + 1]
-            jar[index + 1] = .none
-        case (.horizontal(1, .trail), .left):
-            jar[index - 2] = jar[index - 1]
-            jar[index - 1] = jar[index]
-            jar[index] = .none
-        case (.horizontal(1, .lead), .right):
-            jar[index + 2] = jar[index + 1]
-            jar[index + 1] = jar[index]
-            jar[index] = .none
-        case (.horizontal(1, .trail), .right):
-            jar[index + 1 ] = jar[index]
-            jar[index] = jar[index - 1]
-            jar[index - 1] = .none
         default:
             return
         }
         
-        if case .square(_) = tile {
-            jar[index] = .none
-        }
     }
 }

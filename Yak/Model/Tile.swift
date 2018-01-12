@@ -49,12 +49,32 @@ extension Tile {
     }
 }
 
+extension Tile.Movement {
+    var sign: Int {
+        switch self {
+        case .up, .left: return -1
+        case .down, .right: return 1
+        }
+    }
+}
+
 extension Tile {
     enum Segment {
         case top
         case bottom
         case lead
         case trail
+    }
+}
+
+extension Tile.Segment {
+    var opposite: Tile.Segment {
+        switch self {
+        case .top: return .bottom
+        case .bottom: return .top
+        case .lead: return .trail
+        case .trail: return .lead
+        }
     }
 }
 

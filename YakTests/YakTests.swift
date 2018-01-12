@@ -383,4 +383,80 @@ class YakTests: XCTestCase {
         XCTAssert(board.description == " . . . \n↑.°. . \n↓.°. . \n↑.←.→. \n↓. . . \n")
     }
     
+    func test_horizontal_can_move_around(segment: Tile.Segment = .trail) {
+        let board = Board()
+        board.jar = [
+            .none, .none, .horizontal(instance: 1, segment: .lead), .horizontal(instance: 1, segment: .trail),
+            .none, .square(instance: 1), .none, .none,
+            .none, .square(instance: 3), .none, .none,
+            .none, .none, .none, .none,
+            .none, .none, .none, .none
+        ]
+        
+        note(board)
+        XCTAssert(board.description == " . .←.→\n .°. . \n .°. . \n . . . \n . . . \n")
+
+        for i in 1...6 {
+            board.move(tile: .horizontal(instance: 1, segment: segment), direction: .down)
+            note(board)
+            
+            switch i {
+            case 1:
+                XCTAssert(board.description == " . . . \n .°.←.→\n .°. . \n . . . \n . . . \n")
+            case 2:
+                XCTAssert(board.description == " . . . \n .°. . \n .°.←.→\n . . . \n . . . \n")
+            case 3:
+                XCTAssert(board.description == " . . . \n .°. . \n .°. . \n . .←.→\n . . . \n")
+            default:
+                XCTAssert(board.description == " . . . \n .°. . \n .°. . \n . . . \n . .←.→\n")
+            }
+        }
+        
+        for i in 1...6 {
+            board.move(tile: .horizontal(instance: 1, segment: segment), direction: .left)
+            note(board)
+            
+            switch i {
+            case 1:
+                XCTAssert(board.description == " . . . \n .°. . \n .°. . \n . . . \n .←.→. \n")
+            default:
+                XCTAssert(board.description == " . . . \n .°. . \n .°. . \n . . . \n←.→. . \n")
+            }
+        }
+        
+        for i in 1...6 {
+            board.move(tile: .horizontal(instance: 1, segment: segment), direction: .up)
+            note(board)
+            
+            switch i {
+            case 1:
+                XCTAssert(board.description == " . . . \n .°. . \n .°. . \n←.→. . \n . . . \n")
+            default:
+                XCTAssert(board.description == " . . . \n .°. . \n .°. . \n←.→. . \n . . . \n")
+            }
+        }
+        
+        for i in 1...6 {
+            board.move(tile: .horizontal(instance: 1, segment: segment), direction: .right)
+            note(board)
+            
+            switch i {
+            case 1:
+                XCTAssert(board.description == " . . . \n .°. . \n .°. . \n .←.→. \n . . . \n")
+            default:
+                XCTAssert(board.description == " . . . \n .°. . \n .°. . \n . .←.→\n . . . \n")
+            }
+        }
+        
+    }
+
+    func test_horizontal_lead_can_move_around() {
+        test_horizontal_can_move_around(segment: .lead)
+    }
+    
+    func test_horizontal_trail_can_move_around() {
+        test_horizontal_can_move_around(segment: .trail)
+    }
+
+    
 }
