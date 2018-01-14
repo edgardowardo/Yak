@@ -18,15 +18,14 @@
    0.1.2.3
  
  OO
- OO The big square is composed of top leading, top trailing, bottom leading and bottom trailing cookie tile.
+ OO The block is composed of top leading, top trailing, bottom leading and bottom trailing tile.
  
  ° Square is the smallest unit of tile. There are four squares in the classic game. Instance orders are 1, 2, 3, 4 left to right, top down.
  
  ← → There is a single horizontal block in the classic game identified by it's instance with their leading and trailing segments. Instance order is 1.
  
  ↑
- ↓ There are four vertical blocks identified by their instance with their top and bottom segments in the classic game. Instance orders are 1, 2, 3, 4.
-
+ ↓ There are four vertical blocks identified by their instance with their top and bottom segments in the classic game. Instance orders are 2, 3, 4 & 5.
  
  */
 
