@@ -13,6 +13,9 @@ class Board: NSObject {
     
     let width = 4
     
+    // TODO: Remove me
+    var appliedCount: Int = 0
+    
     var height: Int {
         return tiles.count / width
     }
@@ -26,6 +29,17 @@ class Board: NSObject {
     ]
     
     let targets = [1, 2, 5, 6]
+    
+    var currentPlayer: Player
+    
+    override init() {
+        currentPlayer = Player.computer()
+        super.init()
+    }
+    
+    func updateFromBoard(_ other: Board) {
+        self.tiles = other.tiles
+    }
     
     override var description: String {
         var desc = ""

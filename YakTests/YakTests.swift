@@ -6,6 +6,7 @@
 //  Copyright © 2018 Agno, Edgardo (Developer). All rights reserved.
 //
 
+import GameplayKit
 import XCTest
 @testable import Yak
 
@@ -22,7 +23,46 @@ class YakTests: XCTestCase {
     }
     
     func note(_ board: Board) {
-        //print("[\n\(board)]")
+        print("[\n\(board)]")
+    }
+    
+    func test_min_max_strategy() {
+        let strategist = GKMinmaxStrategist()
+        let board = Board()
+        strategist.gameModel = board
+        strategist.maxLookAheadDepth = 5
+        strategist.randomSource = GKARC4RandomSource()
+        if let move = strategist.bestMoveForActivePlayer() {
+            print("best move: \(move)")
+            board.apply(move)
+        }
+    }
+    
+    
+    func test_monte_carlo_strategy() {
+        let strategist = GKMonteCarloStrategist()
+        let board = Board()
+        strategist.gameModel = board
+        strategist.budget = 1
+        strategist.explorationParameter = 1
+        strategist.randomSource = GKARC4RandomSource()
+        if let move = strategist.bestMoveForActivePlayer() {
+            board.apply(move)
+        }
+        // Assuming best move retuns
+//        while !board.isWin(for: board.currentPlayer) {
+//            if let move = strategist.bestMoveForActivePlayer() as? Move {
+//                board.apply(move)
+//            }
+//        }
+    }
+    
+    func test_game_model_updates() {
+        let board = Board()
+        XCTAssert(board.gameModelUpdates(for: board.currentPlayer)!.map{ $0.description } == ["↑2 up", "←1 left", "°1 up"])
+        
+        board.move(tile: .square(instance: 1), moving: .up)
+        XCTAssert(board.gameModelUpdates(for: board.currentPlayer)!.map{ $0.description } == ["°1 left", "↑2 up", "°1 down", "°2 left", "°3 up"])
     }
     
     func test_klotski_solution() {
@@ -909,6 +949,5 @@ class YakTests: XCTestCase {
     func test_horizontal_trail_can_move_around() {
         test_horizontal_can_move_around(segment: .trail)
     }
-
     
 }

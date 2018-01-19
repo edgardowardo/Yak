@@ -32,6 +32,7 @@
 import Foundation
 
 enum Tile {
+    
     case none
     case square(instance: Int)
     case horizontal(instance: Int, segment: Segment)
@@ -40,6 +41,7 @@ enum Tile {
 }
 
 extension Tile {
+    
     enum Movement {
         case up
         case down
@@ -49,15 +51,28 @@ extension Tile {
 }
 
 extension Tile.Movement {
+
     var sign: Int {
         switch self {
         case .up, .left: return -1
         case .down, .right: return 1
         }
     }
+    
+    var opposite: Tile.Movement {
+        switch self {
+        case .up: return .down
+        case .down: return .up
+        case .left: return .right
+        case .right: return .left
+        }
+    }
+    
+    static var all: [Tile.Movement] { return [.up, .right, .down, .left] }
 }
 
 extension Tile {
+    
     enum Segment {
         case top
         case bottom
@@ -67,6 +82,7 @@ extension Tile {
 }
 
 extension Tile.Segment {
+    
     var opposite: Tile.Segment {
         switch self {
         case .top: return .bottom
@@ -95,6 +111,7 @@ func ==(lhs: Tile, rhs: Tile) -> Bool {
 // Description
 
 extension Tile: CustomStringConvertible {
+    
     var description: String {
         switch self {
         case .none: return " "
@@ -104,6 +121,19 @@ extension Tile: CustomStringConvertible {
         case .vertical(_, .bottom): return "↓"
         case .horizontal(_, .lead): return "←"
         case .horizontal(_, .trail): return "→"
+        default: return "?"
+        }
+    }
+    
+    var detailedDescription: String {
+        switch self {
+        case .none: return " "
+        case .block(let row, let col): return "O.\(row).\(col)"
+        case .square(let instance) : return "°\(instance)"
+        case .vertical(let instance, .top): return "↑\(instance)"
+        case .vertical(let instance, .bottom): return "↓\(instance)"
+        case .horizontal(let instance, .lead): return "←\(instance)"
+        case .horizontal(let instance, .trail): return "→\(instance)"
         default: return "?"
         }
     }

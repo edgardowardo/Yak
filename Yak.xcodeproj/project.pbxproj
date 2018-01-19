@@ -21,6 +21,9 @@
 		C04BEC422006B4070056C63B /* Tile.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04BEC412006B4070056C63B /* Tile.swift */; };
 		C04BEC442006B5840056C63B /* Board.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04BEC432006B5840056C63B /* Board.swift */; };
 		C04BEC462006B6310056C63B /* Board+TileMovement.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04BEC452006B6310056C63B /* Board+TileMovement.swift */; };
+		C06B34D5200CDC2300B9F8E7 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = C06B34D4200CDC2300B9F8E7 /* Player.swift */; };
+		C06B34D9200CE13600B9F8E7 /* GamePlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = C06B34D8200CE13600B9F8E7 /* GamePlay.swift */; };
+		C0FF97BA200E317B003B5A3D /* Board+Generator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0FF97B9200E317B003B5A3D /* Board+Generator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +64,9 @@
 		C04BEC412006B4070056C63B /* Tile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tile.swift; sourceTree = "<group>"; };
 		C04BEC432006B5840056C63B /* Board.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Board.swift; sourceTree = "<group>"; };
 		C04BEC452006B6310056C63B /* Board+TileMovement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Board+TileMovement.swift"; sourceTree = "<group>"; };
+		C06B34D4200CDC2300B9F8E7 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
+		C06B34D8200CE13600B9F8E7 /* GamePlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GamePlay.swift; sourceTree = "<group>"; };
+		C0FF97B9200E317B003B5A3D /* Board+Generator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Board+Generator.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -147,9 +153,12 @@
 		C04BEC4020069B3E0056C63B /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				C04BEC412006B4070056C63B /* Tile.swift */,
 				C04BEC432006B5840056C63B /* Board.swift */,
+				C0FF97B9200E317B003B5A3D /* Board+Generator.swift */,
 				C04BEC452006B6310056C63B /* Board+TileMovement.swift */,
+				C06B34D8200CE13600B9F8E7 /* GamePlay.swift */,
+				C06B34D4200CDC2300B9F8E7 /* Player.swift */,
+				C04BEC412006B4070056C63B /* Tile.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -292,9 +301,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				C04BEC11200698830056C63B /* GameScene.swift in Sources */,
+				C06B34D9200CE13600B9F8E7 /* GamePlay.swift in Sources */,
 				C04BEC462006B6310056C63B /* Board+TileMovement.swift in Sources */,
 				C04BEC13200698830056C63B /* GameViewController.swift in Sources */,
 				C04BEC442006B5840056C63B /* Board.swift in Sources */,
+				C06B34D5200CDC2300B9F8E7 /* Player.swift in Sources */,
+				C0FF97BA200E317B003B5A3D /* Board+Generator.swift in Sources */,
 				C04BEC0B200698830056C63B /* AppDelegate.swift in Sources */,
 				C04BEC422006B4070056C63B /* Tile.swift in Sources */,
 			);
